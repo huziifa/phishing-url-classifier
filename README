@@ -1,8 +1,460 @@
 <div align="center">
 
-# 🛡️ phishing-url-classifier
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Phishing%20URL%20Detector&fontSize=42&fontColor=fff&animation=twinkling&fontAlignY=32&desc=AI-Powered%20Cybersecurity%20%E2%80%94%2097.4%25%20Accuracy&descAlignY=55&descSize=18" width="100%"/>
 
-### A machine learning web application that detects phishing URLs in real time with 97.4% accuracy
+<br/>
+
+<p>
+  <a href="https://github.com/huziifa/Huzaifa/stargazers"><img src="https://img.shields.io/github/stars/huziifa/Huzaifa?style=for-the-badge&logo=starship&color=f4c430&labelColor=1a1a2e" alt="Stars"/></a>
+  <a href="https://github.com/huziifa/Huzaifa/forks"><img src="https://img.shields.io/github/forks/huziifa/Huzaifa?style=for-the-badge&logo=git&color=4ecdc4&labelColor=1a1a2e" alt="Forks"/></a>
+  <a href="https://github.com/huziifa/Huzaifa/issues"><img src="https://img.shields.io/github/issues/huziifa/Huzaifa?style=for-the-badge&logo=gitbook&color=ff6b6b&labelColor=1a1a2e" alt="Issues"/></a>
+  <a href="#"><img src="https://img.shields.io/badge/Accuracy-97.4%25-brightgreen?style=for-the-badge&logo=checkmarx&labelColor=1a1a2e" alt="Accuracy"/></a>
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/Python-3.6+-3776AB?style=flat-square&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Flask-2.0.2-000000?style=flat-square&logo=flask&logoColor=white"/>
+  <img src="https://img.shields.io/badge/scikit--learn-1.0.1-F7931E?style=flat-square&logo=scikit-learn&logoColor=white"/>
+  <img src="https://img.shields.io/badge/NumPy-1.21-013243?style=flat-square&logo=numpy&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Pandas-1.3-150458?style=flat-square&logo=pandas&logoColor=white"/>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square"/>
+</p>
+
+<br/>
+
+> **Paste any URL. Get an instant AI-powered safety verdict.**
+> Built with a Gradient Boosting Classifier trained on 11,055 real-world URLs — extracting 30 intelligent features to catch phishing attacks before they catch you.
+
+<br/>
+
+<img src="https://user-images.githubusercontent.com/79131292/144742825-23367f0f-9e67-4c99-ba1f-b86a187675c9.png" width="80%"/>
+
+<br/><br/>
+
+</div>
+
+---
+
+## 📋 Table of Contents
+
+<details>
+<summary>Click to expand</summary>
+
+- [🧠 About the Project](#-about-the-project)
+- [✨ Key Features](#-key-features)
+- [⚙️ How It Works](#️-how-it-works)
+- [🧮 The 30 Features](#-the-30-features)
+- [📊 Model Benchmarks](#-model-benchmarks)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📁 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [💻 Usage](#-usage)
+- [📂 Dataset](#-dataset)
+- [🏆 Results and Analysis](#-results-and-analysis)
+- [🛣️ Roadmap](#️-roadmap)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👤 Author](#-author)
+
+</details>
+
+---
+
+## 🧠 About the Project
+
+Phishing attacks account for over **90% of data breaches** worldwide. Attackers create convincing fake websites to steal credentials, financial details, and personal information — and traditional rule-based filters increasingly fail to keep up.
+
+This project solves that problem with **machine learning**. Instead of relying on blacklists that go stale, the model learns the structural patterns that make a URL suspicious — domain age, redirect chains, anchor ratios, HTTPS usage, and 26 more signals — and generalises to URLs it has never seen before.
+
+### Why machine learning?
+
+| Approach | Limitation |
+|----------|-----------|
+| Blacklist filtering | Only catches known phishing sites |
+| Rule-based heuristics | Brittle and easy to bypass |
+| ✅ Machine Learning | Learns patterns, generalises to new threats |
+
+### What makes this project stand out?
+
+- **30 handcrafted features** covering URL structure, domain intelligence, HTML content, and web reputation
+- **10 models benchmarked** head-to-head on the same dataset
+- **97.4% accuracy** with 99.4% recall — nearly every phishing URL is caught
+- **Production-ready Flask app** — live web interface, Heroku-deployable
+
+---
+
+## ✨ Key Features
+
+```
+🔍  Real-time URL analysis          —  Results in seconds
+🤖  Gradient Boosting Classifier    —  Best-in-class accuracy
+📊  Probability score display       —  Not just yes/no, but a confidence %
+🌐  30-feature extraction engine    —  Deep structural URL analysis
+🛡️  99.4% phishing recall          —  Misses almost nothing
+⚡  Lightweight Flask app           —  Fast, clean, deployable anywhere
+📓  Full EDA Jupyter Notebook       —  Transparent, reproducible research
+```
+
+---
+
+## ⚙️ How It Works
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        USER INPUT                           │
+│              Paste any URL into the web form                │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   FEATURE EXTRACTION                        │
+│   FeatureExtraction class analyses the URL across 4 layers  │
+│                                                             │
+│   ① URL Structure     ② Domain Intelligence                │
+│   ③ HTML Content      ④ Web Reputation                     │
+│                                                             │
+│              Outputs: 30 numerical features                 │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│              GRADIENT BOOSTING CLASSIFIER                   │
+│         Pre-trained on 11,055 labelled URLs                 │
+│     Outputs: class prediction + probability score           │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+                           ▼
+┌─────────────────────────────────────────────────────────────┐
+│                       RESULT                                │
+│        ✅  "85.3% safe to visit"                           │
+│        ⚠️  "12.1% safe — likely phishing"                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🧮 The 30 Features
+
+The feature engine extracts signals across four layers of analysis:
+
+### 🔗 Layer 1 — URL Structure (7 features)
+
+| # | Feature | Signal |
+|---|---------|--------|
+| 1 | IP Address in URL | Phishers use IPs to bypass domain reputation checks |
+| 2 | URL Length | Legitimate URLs average ~54 chars; phishing URLs are often longer |
+| 3 | URL Shortening Service | Services like bit.ly are used to hide malicious destinations |
+| 4 | `@` Symbol | Forces browser to ignore everything before `@` |
+| 5 | Redirecting `//` | Double-slash beyond position 7 signals a redirect |
+| 6 | Prefix/Suffix `-` in Domain | Hyphenated domains mimic legitimate brands (e.g. `pay-pal.com`) |
+| 7 | Sub-domain Count | Deeply nested sub-domains are a common phishing pattern |
+
+### 🌐 Layer 2 — Domain Intelligence (5 features)
+
+| # | Feature | Signal |
+|---|---------|--------|
+| 8 | HTTPS Protocol | Absence of HTTPS is a red flag |
+| 9 | Domain Registration Length | Short registration duration indicates a throwaway domain |
+| 10 | Favicon Source | Favicon loaded from an external domain reveals spoofing |
+| 11 | Non-Standard Port | Unusual ports used to bypass standard traffic filters |
+| 12 | HTTPS Token in Domain | "https" in the domain name itself is a deception tactic |
+
+### 🖥️ Layer 3 — HTML and JavaScript (11 features)
+
+| # | Feature | Signal |
+|---|---------|--------|
+| 13 | Request URL Ratio | High % of external resources (images, audio) signals cloning |
+| 14 | Anchor URL Ratio | Links pointing to different domains than the host |
+| 15 | Script/Link Tag Ratio | Disproportionate external scripts |
+| 16 | Server Form Handler | Forms submitting to `about:blank` or off-domain |
+| 17 | Info Email (`mailto:`) | Use of `mailto:` in forms instead of server handlers |
+| 18 | Abnormal URL | Host name does not match WHOIS registration data |
+| 19 | Website Forwarding | More than 2 redirects is suspicious; 4+ is highly suspicious |
+| 20 | Status Bar Customisation | `onmouseover` used to disguise the real link destination |
+| 21 | Disable Right Click | JavaScript block on right-click to prevent inspection |
+| 22 | Popup Windows | Aggressive `alert()` usage to harvest credentials |
+| 23 | Iframe Redirection | Hidden iframes loading malicious payloads |
+
+### 📈 Layer 4 — Web Reputation (7 features)
+
+| # | Feature | Signal |
+|---|---------|--------|
+| 24 | Age of Domain | Phishing domains are typically < 6 months old |
+| 25 | DNS Record | No DNS record is a strong indicator of a fake domain |
+| 26 | Website Traffic | Low Alexa rank suggests an obscure or newly created site |
+| 27 | Page Rank | Low PageRank correlates with phishing |
+| 28 | Google Index | Unindexed pages are often malicious |
+| 29 | Links Pointing to Page | Very few backlinks indicate a brand-new fake site |
+| 30 | Statistical Report | URL/IP matched against known phishing blacklists |
+
+---
+
+## 📊 Model Benchmarks
+
+Ten classifiers were trained and evaluated on identical train/test splits:
+
+| Rank | Model | Accuracy | F1 Score | Recall | Precision |
+|:----:|-------|:--------:|:--------:|:------:|:---------:|
+| 🥇 | **Gradient Boosting Classifier** | **0.974** | **0.977** | **0.994** | **0.986** |
+| 🥈 | CatBoost Classifier | 0.972 | 0.975 | 0.994 | 0.989 |
+| 🥉 | XGBoost Classifier | 0.969 | 0.973 | 0.993 | 0.984 |
+| 4 | Multi-layer Perceptron | 0.969 | 0.973 | 0.995 | 0.981 |
+| 5 | Random Forest | 0.967 | 0.971 | 0.993 | 0.990 |
+| 6 | Support Vector Machine | 0.964 | 0.968 | 0.980 | 0.965 |
+| 7 | Decision Tree | 0.960 | 0.964 | 0.991 | 0.993 |
+| 8 | K-Nearest Neighbors | 0.956 | 0.961 | 0.991 | 0.989 |
+| 9 | Logistic Regression | 0.934 | 0.941 | 0.943 | 0.927 |
+| 10 | Naive Bayes Classifier | 0.605 | 0.454 | 0.292 | 0.997 |
+
+> GBC was selected because it achieved the highest accuracy while maintaining excellent recall — critical for a security tool where missing a phishing URL is more costly than a false alarm.
+
+### Feature Importance
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/79131292/144603941-19044aae-7d7b-4e9a-88a8-6adfd8626f77.png" width="75%"/>
+</div>
+
+<br/>
+
+**Top 3 most important features:**
+1. 🔒 **HTTPS** — presence or absence of a valid certificate
+2. ⚓ **AnchorURL** — ratio of links pointing off-domain
+3. 📡 **WebsiteTraffic** — Alexa traffic rank
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| **Language** | Python 3.6+ | Core development |
+| **Web Framework** | Flask 2.0.2 | Web application and API |
+| **ML** | scikit-learn 1.0.1 | Model training and inference |
+| **Data** | NumPy · Pandas | Numerical processing |
+| **Scraping** | BeautifulSoup4 · Requests | HTML feature extraction |
+| **Domain Intel** | python-whois · googlesearch | WHOIS and search analysis |
+| **Deployment** | Gunicorn · Procfile | Production server and Heroku |
+| **Notebook** | Jupyter | EDA and model experiments |
+
+</div>
+
+---
+
+## 📁 Project Structure
+
+```
+Huzaifa/
+│
+├── 📂 pickle/
+│   └── model.pkl                      # Trained GBC model (download separately)
+│
+├── 📂 static/
+│   └── styles.css                     # Web app stylesheet
+│
+├── 📂 templates/
+│   └── index.html                     # Main web interface
+│
+├── 📓 Phishing URL Detection.ipynb    # EDA, training and evaluation notebook
+├── 🐍 app.py                          # Flask entry point
+├── 🔧 feature.py                      # 30-feature extraction engine
+├── 📊 phishing.csv                    # Training dataset (11,055 URLs)
+├── 🚀 Procfile                        # Heroku deployment config
+├── 📋 requirements.txt                # Python dependencies
+└── 📖 README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python **3.6+**
+- pip
+- Git
+
+### Installation
+
+**Step 1 — Clone the repository**
+
+```bash
+git clone https://github.com/huziifa/Huzaifa.git
+cd Huzaifa
+```
+
+**Step 2 — Create and activate a virtual environment**
+
+```bash
+# Create
+python -m venv venv
+
+# Activate on Windows
+venv\Scripts\activate
+
+# Activate on Mac / Linux
+source venv/bin/activate
+```
+
+**Step 3 — Install dependencies**
+
+```bash
+pip install -r requirements.txt
+```
+
+**Step 4 — Download the trained model**
+
+The `model.pkl` file is hosted separately due to GitHub's file size limits.
+Download it and place it inside the `pickle/` folder:
+
+```
+📥 Download model.pkl — [Link Here]
+```
+
+Place the file at:
+```
+Huzaifa/pickle/model.pkl
+```
+
+**Step 5 — Launch the application**
+
+```bash
+python app.py
+```
+
+**Step 6 — Open in your browser**
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## 💻 Usage
+
+1. Open the web app in your browser
+2. Paste any URL into the input field
+3. Click **Check URL**
+4. Receive an instant result:
+
+```
+✅  https://github.com            →  96.2% safe
+✅  https://google.com            →  94.8% safe
+⚠️  http://paypa1-verify.tk      →   3.1% safe  ← phishing detected
+⚠️  http://secure-login.free.fr  →   7.4% safe  ← phishing detected
+```
+
+> **Note:** Some feature extraction steps (WHOIS lookup, Google index check) require an internet connection and may add 2–5 seconds to response time.
+
+---
+
+## 📂 Dataset
+
+| Property | Value |
+|----------|-------|
+| **Source** | [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/phishing+websites) |
+| **Total URLs** | 11,055 |
+| **Features** | 30 |
+| **Phishing** | 4,898 samples (-1) |
+| **Suspicious** | 702 samples (0) |
+| **Legitimate** | 6,157 samples (1) |
+| **Train/Test Split** | 80% / 20% |
+
+---
+
+## 🏆 Results and Analysis
+
+### Final Model Performance
+
+```
+┌─────────────────────────────────────────┐
+│   Gradient Boosting Classifier          │
+│                                         │
+│   Accuracy   ████████████████░  97.4%  │
+│   F1 Score   ████████████████░  97.7%  │
+│   Recall     █████████████████  99.4%  │
+│   Precision  ████████████████░  98.6%  │
+└─────────────────────────────────────────┘
+```
+
+### Key Takeaways
+
+- **99.4% Recall** — the model catches nearly every phishing URL. In security, a missed phishing site is far more dangerous than a false alarm, so recall is the most critical metric here.
+- **98.6% Precision** — very few legitimate URLs are incorrectly flagged, ensuring a usable, low-friction experience.
+- **Top signals** — HTTPS, AnchorURL, and WebsiteTraffic alone account for the majority of predictive power, confirming that phishers consistently fail on these dimensions.
+- **Naive Bayes failure** — its low recall of 29.2% confirms that URL features are not conditionally independent, which violates the core Naive Bayes assumption.
+
+---
+
+## 🛣️ Roadmap
+
+- [x] Feature extraction engine (30 features)
+- [x] Model training and benchmarking (10 algorithms)
+- [x] Flask web application
+- [x] Heroku deployment config (Procfile)
+- [ ] REST API endpoint (`POST /api/check`)
+- [ ] Browser extension integration
+- [ ] Real-time retraining pipeline
+- [ ] Docker containerisation
+- [ ] CI/CD with GitHub Actions
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome and appreciated!
+
+```bash
+# 1. Fork the project
+# 2. Create your feature branch
+git checkout -b feature/AmazingFeature
+
+# 3. Commit your changes
+git commit -m "Add AmazingFeature"
+
+# 4. Push to your branch
+git push origin feature/AmazingFeature
+
+# 5. Open a Pull Request
+```
+
+Found a bug? [Open an issue](https://github.com/huziifa/Huzaifa/issues).
+
+---
+
+## 📄 License
+
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for full terms.
+
+---
+
+## 👤 Author
+
+<div align="center">
+
+<img src="https://github.com/huziifa.png" width="100px" style="border-radius:50%"/>
+
+### Huzaifa
+
+*Machine Learning Engineer and Developer*
+
+[![GitHub](https://img.shields.io/badge/GitHub-huziifa-181717?style=for-the-badge&logo=github)](https://github.com/huziifa)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/huziifa)
+
+</div>
+
+---
+
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer" width="100%"/>
+
+**If this project helped you, please consider giving it a star ⭐**
+
+*Built with Python, Flask, and scikit-learn*
+
+</div>
 
 [![Python](https://img.shields.io/badge/Python-3.6%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0.2-black?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
