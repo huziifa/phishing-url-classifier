@@ -1,0 +1,325 @@
+<div align="center">
+
+# 🛡️ phishing-url-classifier
+
+### A machine learning web application that detects phishing URLs in real time with 97.4% accuracy
+
+[![Python](https://img.shields.io/badge/Python-3.6%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0.2-black?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.0.1-orange?style=for-the-badge&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+<br/>
+
+![Demo Screenshot](https://user-images.githubusercontent.com/79131292/144742825-23367f0f-9e67-4c99-ba1f-b86a187675c9.png)
+
+</div>
+
+---
+
+## 📌 Table of Contents
+
+- [Overview](#-overview)
+- [How It Works](#-how-it-works)
+- [Features Extracted](#-features-extracted)
+- [Model Performance](#-model-performance)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Usage](#-usage)
+- [Dataset](#-dataset)
+- [Results](#-results)
+- [Conclusion](#-conclusion)
+
+---
+
+## 🔍 Overview
+
+Phishing is one of the most prevalent forms of cybercrime, where attackers deceive victims using social engineering or fake websites to steal sensitive information such as passwords, usernames, and financial credentials.
+
+This project uses **machine learning** to detect phishing URLs by analysing 30 handcrafted features extracted from a URL — including domain structure, HTTPS usage, website traffic, and more. A **Gradient Boosting Classifier** was selected as the final model after benchmarking 10 different algorithms, achieving **97.4% accuracy**.
+
+The model is deployed as a **Flask web application** where users can paste any URL and instantly receive a safety prediction.
+
+---
+
+## ⚙️ How It Works
+
+```
+User submits URL
+      │
+      ▼
+Feature Extraction (30 features)
+      │
+      ▼
+Gradient Boosting Classifier
+      │
+      ▼
+Prediction: Safe / Phishing (with probability score)
+```
+
+1. The user enters a URL in the web interface.
+2. The `FeatureExtraction` class analyses the URL and extracts 30 numerical features.
+3. The trained GBC model predicts whether the URL is **safe** or **phishing**.
+4. A probability score is returned and displayed to the user.
+
+---
+
+## 🧮 Features Extracted
+
+The model uses 30 features grouped into three categories:
+
+### URL-Based Features
+| # | Feature | Description |
+|---|---------|-------------|
+| 1 | Using IP Address | Checks if an IP address is used instead of a domain name |
+| 2 | URL Length | Flags unusually long URLs (>75 chars) |
+| 3 | URL Shortening | Detects known shorteners like bit.ly, tinyurl |
+| 4 | `@` Symbol | Presence of `@` forces browser to ignore preceding text |
+| 5 | Redirecting `//` | Double slash beyond position 7 signals redirect |
+| 6 | Prefix/Suffix `-` | Hyphen in domain name is a phishing indicator |
+| 7 | Sub-Domain Count | Multiple sub-domains increase phishing likelihood |
+
+### Domain-Based Features
+| # | Feature | Description |
+|---|---------|-------------|
+| 8 | HTTPS | Checks if HTTPS is used |
+| 9 | Domain Registration Length | Short registration periods are suspicious |
+| 10 | Favicon | Favicon loaded from a different domain signals phishing |
+| 11 | Non-Standard Port | Use of unusual ports |
+| 12 | HTTPS in Domain URL | "https" appearing in the domain part of the URL |
+
+### HTML & JavaScript Features
+| # | Feature | Description |
+|---|---------|-------------|
+| 13 | Request URL | Percentage of external resources loaded |
+| 14 | Anchor URL | Percentage of anchor tags pointing externally |
+| 15 | Links in `<script>` / `<link>` | Ratio of external script and link tags |
+| 16 | Server Form Handler | Form action pointing to blank or external pages |
+| 17 | Info Email | Use of `mailto:` in page |
+| 18 | Abnormal URL | Host name not matching WHOIS response |
+| 19 | Website Forwarding | Excessive redirects |
+| 20 | Status Bar Customisation | `onmouseover` used to hide real URL |
+| 21 | Disable Right Click | Right-click disabled via JavaScript |
+| 22 | Popup Window | Use of `alert()` |
+| 23 | Iframe Redirection | Invisible iframes to load malicious content |
+
+### Domain/Traffic-Based Features
+| # | Feature | Description |
+|---|---------|-------------|
+| 24 | Age of Domain | Domains < 6 months old are suspicious |
+| 25 | DNS Record | Missing DNS record signals phishing |
+| 26 | Website Traffic | Alexa rank below 100,000 indicates legitimacy |
+| 27 | Page Rank | Google PageRank score |
+| 28 | Google Index | Whether the URL is indexed by Google |
+| 29 | Links Pointing to Page | Number of external links pointing to the page |
+| 30 | Statistical Reports | URL/IP matching known phishing blacklists |
+
+---
+
+## 📊 Model Performance
+
+Ten machine learning algorithms were trained and evaluated on the dataset:
+
+| Rank | Model | Accuracy | F1 Score | Recall | Precision |
+|------|-------|----------|----------|--------|-----------|
+| 🥇 1 | **Gradient Boosting Classifier** | **0.974** | **0.977** | **0.994** | **0.986** |
+| 🥈 2 | CatBoost Classifier | 0.972 | 0.975 | 0.994 | 0.989 |
+| 🥉 3 | XGBoost Classifier | 0.969 | 0.973 | 0.993 | 0.984 |
+| 4 | Multi-layer Perceptron | 0.969 | 0.973 | 0.995 | 0.981 |
+| 5 | Random Forest | 0.967 | 0.971 | 0.993 | 0.990 |
+| 6 | Support Vector Machine | 0.964 | 0.968 | 0.980 | 0.965 |
+| 7 | Decision Tree | 0.960 | 0.964 | 0.991 | 0.993 |
+| 8 | K-Nearest Neighbors | 0.956 | 0.961 | 0.991 | 0.989 |
+| 9 | Logistic Regression | 0.934 | 0.941 | 0.943 | 0.927 |
+| 10 | Naive Bayes Classifier | 0.605 | 0.454 | 0.292 | 0.997 |
+
+> **Gradient Boosting Classifier** was selected as the final model with **97.4% accuracy**.
+
+### Feature Importance
+
+The top features influencing the model's decisions:
+
+![Feature Importance](https://user-images.githubusercontent.com/79131292/144603941-19044aae-7d7b-4e9a-88a8-6adfd8626f77.png)
+
+Key findings:
+- **HTTPS**, **AnchorURL**, and **WebsiteTraffic** are the most important features.
+- Domain age and DNS records are also strong indicators.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Language | Python 3.6+ |
+| Web Framework | Flask 2.0.2 |
+| ML Library | scikit-learn 1.0.1 |
+| Data Processing | NumPy, Pandas |
+| Web Scraping | BeautifulSoup4, Requests |
+| Domain Analysis | python-whois, googlesearch-python |
+| Deployment | Gunicorn, Procfile (Heroku-ready) |
+
+---
+
+## 📁 Project Structure
+
+```
+Huzaifa/
+│
+├── pickle/
+│   └── model.pkl               # Trained Gradient Boosting model
+│
+├── static/
+│   └── styles.css              # Frontend styling
+│
+├── templates/
+│   └── index.html              # Main web interface
+│
+├── app.py                      # Flask application entry point
+├── feature.py                  # URL feature extraction logic (30 features)
+├── phishing.csv                # Training dataset
+├── Phishing URL Detection.ipynb # EDA and model training notebook
+├── Procfile                    # Heroku deployment config
+├── requirements.txt            # Python dependencies
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.6 or higher
+- pip package manager
+- Git
+
+### Installation
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/huziifa/Huzaifa.git
+cd Huzaifa
+```
+
+**2. Create a virtual environment (recommended)**
+```bash
+python -m venv venv
+
+# Activate on Windows
+venv\Scripts\activate
+
+# Activate on Mac/Linux
+source venv/bin/activate
+```
+
+**3. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**4. Download the trained model**
+
+The `model.pkl` file is not included in the repository due to file size limits.
+Download it from the link below and place it inside the `pickle/` folder:
+
+> 📥 [Download model.pkl](YOUR_GOOGLE_DRIVE_OR_HUGGINGFACE_LINK_HERE)
+
+**5. Run the application**
+```bash
+python app.py
+```
+
+**6. Open your browser and navigate to:**
+```
+http://127.0.0.1:5000
+```
+
+---
+
+## 💻 Usage
+
+1. Open the web app in your browser.
+2. Paste any URL into the input field.
+3. Click **Check URL**.
+4. The app returns:
+   - ✅ A **safety probability score** (e.g. *"85.3% safe to visit"*)
+   - ⚠️ A **phishing warning** if the URL is flagged as malicious
+
+**Example URLs to test:**
+```
+# Likely safe
+https://www.google.com
+https://github.com
+
+# Likely phishing (test carefully)
+http://paypal-secure-login.free.fr/
+```
+
+---
+
+## 📂 Dataset
+
+The model was trained on the [UCI Phishing Websites Dataset](https://archive.ics.uci.edu/ml/datasets/phishing+websites) (`phishing.csv`).
+
+| Property | Value |
+|----------|-------|
+| Total samples | 11,055 |
+| Features | 30 |
+| Classes | Phishing (-1), Suspicious (0), Legitimate (1) |
+| Source | UCI Machine Learning Repository |
+
+---
+
+## 📈 Results
+
+The Gradient Boosting Classifier correctly classified URLs with:
+
+- **97.4% Accuracy**
+- **0.977 F1 Score**
+- **99.4% Recall** — meaning nearly all phishing URLs are caught
+- **98.6% Precision** — very few false positives
+
+The high recall is especially important for a security tool, as missing a phishing site (false negative) is more dangerous than an occasional false alarm.
+
+---
+
+## ✅ Conclusion
+
+1. This project explored 10 machine learning models and performed thorough Exploratory Data Analysis on a real-world phishing dataset.
+2. Features such as **HTTPS**, **AnchorURL**, and **WebsiteTraffic** proved to be the most discriminative for phishing detection.
+3. The **Gradient Boosting Classifier** emerged as the best model with 97.4% accuracy, demonstrating that URL-based features alone are highly effective for phishing detection without needing to analyse page content deeply.
+4. The project is deployed as a production-ready Flask web app, suitable for integration into browser extensions or security pipelines.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
+
+**Huzaifa**
+
+[![GitHub](https://img.shields.io/badge/GitHub-huziifa-181717?style=flat&logo=github)](https://github.com/huziifa)
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ using Python, Flask, and scikit-learn</sub>
+</div>
